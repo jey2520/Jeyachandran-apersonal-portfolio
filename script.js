@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
         revealObserver.observe(element);
     });
 
-    // 4. Form Submission Simulation
+    // 4. Seamless Direct Email Logic
     const contactForm = document.getElementById('contactForm');
     if (contactForm) {
         contactForm.addEventListener('submit', (e) => {
@@ -116,13 +116,21 @@ document.addEventListener('DOMContentLoaded', () => {
             const btn = contactForm.querySelector('button[type="submit"]');
             const originalText = btn.innerHTML;
             
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+
             // Loading state
-            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Transmitting...';
+            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Preparing Email...';
             btn.style.boxShadow = '0 0 20px rgba(0, 240, 255, 0.5)';
             btn.disabled = true;
             
             setTimeout(() => {
-                btn.innerHTML = '<i class="fas fa-check"></i> Sent Successfully!';
+                // Instantly open their Mail App (Gmail / Outlook) with pre-filled details
+                const mailtoLink = `mailto:jeyachandranc2520@gmail.com?subject=New Message from Portfolio (${name})&body=Name: ${name}%0D%0AEmail: ${email}%0D%0A%0D%0A${encodeURIComponent(message)}`;
+                window.location.href = mailtoLink;
+
+                btn.innerHTML = '<i class="fas fa-check"></i> Mail App Opened!';
                 btn.style.background = 'linear-gradient(135deg, #00F0FF, #00FF88)';
                 contactForm.reset();
                 
@@ -131,8 +139,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     btn.style.background = '';
                     btn.style.boxShadow = '';
                     btn.disabled = false;
-                }, 3000);
-            }, 1500);
+                }, 4000);
+            }, 800);
         });
     }
 });
